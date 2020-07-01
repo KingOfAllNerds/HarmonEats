@@ -94,7 +94,7 @@ public class Register extends AppCompatActivity {
                 }
 
 
-                for(int i = 0; i < phone.length(); i++){
+                for(int i = 0; i < phone.length(); i++){    //Check if phone number is only numbers and no spaces
                     Character test = phone.charAt(i);
                     if(!Character.isDigit(test)){
                         uphone.setError("Phone number must only be numbers and no spaces");

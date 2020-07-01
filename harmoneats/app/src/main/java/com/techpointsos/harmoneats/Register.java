@@ -93,6 +93,16 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+
+                for(int i = 0; i < phone.length(); i++){
+                    Character test = phone.charAt(i);
+                    if(!Character.isDigit(test)){
+                        uphone.setError("Phone number must only be numbers and no spaces");
+                        return;
+                    }
+                }
+
+
                 mAuth.createUserWithEmailAndPassword(email, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

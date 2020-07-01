@@ -61,29 +61,35 @@ public class Register extends AppCompatActivity {
                 String email = uemail.getText().toString().trim();
                 String pass1 = upass1.getText().toString().trim();
                 String pass2  = upass2.getText().toString().trim();
+                String phone = uphone.getText().toString().trim();
 
-                if(TextUtils.isEmpty(name)){
+                if(TextUtils.isEmpty(name)){    //Check if name is empty
                     uname.setError("Username is required");
                     return;
                 }
 
-                if(TextUtils.isEmpty(email)){
+                if(TextUtils.isEmpty(email)){   //Check if email is empty
                     uemail.setError("Email is required");
                     return;
                 }
 
-                if(TextUtils.isEmpty(pass1)){
+                if(TextUtils.isEmpty(pass1)){   //Check if password 1 is empty
                     upass1.setError("Password is required");
                     return;
                 }
 
-                if(TextUtils.isEmpty(pass2)){
+                if(TextUtils.isEmpty(pass2)){   //Check if password 2 is empty
                     upass2.setError("Confirm Password is required");
                     return;
                 }
 
-                if(!pass1.equals(pass2)  && !TextUtils.isEmpty(pass1) && !TextUtils.isEmpty(pass2)){
+                if(!pass1.equals(pass2)  && !TextUtils.isEmpty(pass1) && !TextUtils.isEmpty(pass2)){    //Check if passwords match
                     upass2.setError("Passwords must match");
+                    return;
+                }
+
+                if(phone.length() < 10){    //Check if phone number has enough digits
+                    uphone.setError("Phone number must be at least 10 digits");
                     return;
                 }
 

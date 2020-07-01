@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "372774860510",
+    "firebase_url": "https://harmoneats.firebaseio.com",
+    "project_id": "harmoneats",
+    "storage_bucket": "harmoneats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372774860510:android:a749459915ddd28e84344f",
+        "android_client_info": {
+          "package_name": "com.techpointsos.harmoneats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372774860510-6n7apvi4ilklcf67q5blhb3aagolqo01.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techpointsos.harmoneats",
+            "certificate_hash": "eeb939b6182b0fc0a664549bff5e6d3155a11fe9"
+          }
+        },
+        {
+          "client_id": "372774860510-2p0rphtour5e9jj2ipli2prqq31ijino.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhP1HKzcTaJ2JrRP-wsjqSXTQlFslVRl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372774860510-2p0rphtour5e9jj2ipli2prqq31ijino.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

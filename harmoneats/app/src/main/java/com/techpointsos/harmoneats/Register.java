@@ -82,6 +82,11 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
+                if(!pass1.equals(pass2)  && !TextUtils.isEmpty(pass1) && !TextUtils.isEmpty(pass2)){
+                    upass2.setError("Passwords must match");
+                    return;
+                }
+
                 mAuth.createUserWithEmailAndPassword(email, pass1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

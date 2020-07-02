@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class FoodGenresPageOne extends AppCompatActivity {
 
-    private Button chineseButton, mexicanButton, bbqButton, meditButton, nextButton;
+    private Button chineseButton, mexicanButton, bbqButton, meditButton, nextButton, mainButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class FoodGenresPageOne extends AppCompatActivity {
         bbqButton = (Button) findViewById(R.id.bbqButton);
         meditButton = (Button) findViewById(R.id.meditButton);
         nextButton = (Button) findViewById(R.id.nextButton);
+        mainButton = (Button) findViewById(R.id.mainFromGenreButton);
 
         setGenreListenerHelper(chineseButton);
         setGenreListenerHelper(mexicanButton);
@@ -34,6 +35,14 @@ public class FoodGenresPageOne extends AppCompatActivity {
             public void onClick(View view) {
                 Intent nextPageIntent = new Intent(getApplicationContext(), FoodGenresPageTwo.class);
                 startActivity(nextPageIntent);
+            }
+        });
+
+        mainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnToMainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(returnToMainIntent);
             }
         });
     }

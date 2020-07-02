@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class FoodGenresPageTwo extends AppCompatActivity {
 
     private Button italianButton, indianButton, seafoodButton, barAndPubButton, previousButton;
@@ -22,16 +24,28 @@ public class FoodGenresPageTwo extends AppCompatActivity {
         barAndPubButton = (Button) findViewById(R.id.barAndPubButton);
         previousButton = (Button) findViewById(R.id.previousButton);
 
-        italianButton.setOnClickListener(new GenreActionListener("Italian"));
-        indianButton.setOnClickListener(new GenreActionListener("Indian"));
-        seafoodButton.setOnClickListener(new GenreActionListener("Seafood"));
-        barAndPubButton.setOnClickListener(new GenreActionListener("Bars & Pubs"));
+        setGenreListenerHelper(italianButton);
+        setGenreListenerHelper(indianButton);
+        setGenreListenerHelper(seafoodButton);
+        setGenreListenerHelper(barAndPubButton);
 
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent nextPageIntent = new Intent(getApplicationContext(), FoodGenresPageOne.class);
                 startActivity(nextPageIntent);
+            }
+        });
+    }
+
+    public void setGenreListenerHelper(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent genreSelectIntent = new Intent(getApplicationContext(), SelectedGenrePage.class);
+                genreSelectIntent.putExtra("genre was selected", "This is genre page");
+                genreSelectIntent.putExtra("page to return to", 2);
+                startActivity(genreSelectIntent);
             }
         });
     }

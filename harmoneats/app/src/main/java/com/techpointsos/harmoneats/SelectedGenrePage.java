@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SelectedGenrePage extends AppCompatActivity {
@@ -21,14 +20,14 @@ public class SelectedGenrePage extends AppCompatActivity {
 
         returnButton = (Button) findViewById(R.id.returnButton);
 
-        if(getIntent().hasExtra("genre was selected")){
-            TextView pageNumberDeclaration = (TextView) findViewById(R.id.selectGenreTextView);
-            String declarationText = getIntent().getExtras().getString("genre was selected");
-            pageNumberDeclaration.setText(declarationText);
+        if(getIntent().hasExtra("title")){
+            TextView genreTitle = (TextView) findViewById(R.id.genreTitleTextView);
+            String genreText = getIntent().getExtras().getString("title");
+            genreTitle.setText(genreText + " Food Page");
         }
 
-        if(getIntent().hasExtra("page to return to")){
-            int pageNumber = getIntent().getExtras().getInt("page to return to");
+        if(getIntent().hasExtra("page return")){
+            int pageNumber = getIntent().getExtras().getInt("page return");
             if(pageNumber == 1){
                 returnPage = FoodGenresPageOne.class;
             }

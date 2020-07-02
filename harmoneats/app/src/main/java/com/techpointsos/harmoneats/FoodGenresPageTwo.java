@@ -24,10 +24,10 @@ public class FoodGenresPageTwo extends AppCompatActivity {
         barAndPubButton = (Button) findViewById(R.id.barAndPubButton);
         previousButton = (Button) findViewById(R.id.previousButton);
 
-        setGenreListenerHelper(italianButton);
-        setGenreListenerHelper(indianButton);
-        setGenreListenerHelper(seafoodButton);
-        setGenreListenerHelper(barAndPubButton);
+        setGenreListenerHelper(italianButton, "Italian");
+        setGenreListenerHelper(indianButton, "Indian");
+        setGenreListenerHelper(seafoodButton, "Seafood");
+        setGenreListenerHelper(barAndPubButton, "Bars and Pubs");
 
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,13 +38,13 @@ public class FoodGenresPageTwo extends AppCompatActivity {
         });
     }
 
-    public void setGenreListenerHelper(Button button){
+    public void setGenreListenerHelper(Button button, final String genreName){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent genreSelectIntent = new Intent(getApplicationContext(), SelectedGenrePage.class);
-                genreSelectIntent.putExtra("genre was selected", "This is genre page");
-                genreSelectIntent.putExtra("page to return to", 2);
+                genreSelectIntent.putExtra("title", genreName);
+                genreSelectIntent.putExtra("page return", 2);
                 startActivity(genreSelectIntent);
             }
         });

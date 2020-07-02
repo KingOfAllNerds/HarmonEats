@@ -7,19 +7,20 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/selectGenreTextView"
-        android:layout_width="296dp"
-        android:layout_height="136dp"
+        android:id="@+id/genreTitleTextView"
+        android:layout_width="351dp"
+        android:layout_height="93dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.011" />
 
     <Button
         android:id="@+id/returnButton"

@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
         recommendedButton = (Button) findViewById(R.id.recommendedButton);
         orderButton = (Button) findViewById(R.id.orderButton);
         accountButton = (Button) findViewById(R.id.accountButton);
-        aboutButton = (Button) findViewById(R.id.accountButton);
-        aboutButton = (Button) findViewById(R.id.accountButton);
+        aboutButton = (Button) findViewById(R.id.aboutButton);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,35 +44,40 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout(view);
+                Intent searchIntent = new Intent(getApplicationContext(), Search.class);
+                startActivity(searchIntent);
             }
         });
 
         recommendedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout(view);
+                Intent recommendedIntent = new Intent(getApplicationContext(), Recommended.class);
+                startActivity(recommendedIntent);
             }
         });
 
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout(view);
+                Intent orderIntent = new Intent(getApplicationContext(), Order.class);
+                startActivity(orderIntent);
             }
         });
 
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout(view);
+                Intent accountIntent = new Intent(getApplicationContext(), Account.class);
+                startActivity(accountIntent);
             }
         });
 
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout(view);
+                Intent aboutIntent = new Intent(getApplicationContext(), AboutUs.class);
+                startActivity(aboutIntent);
             }
         });
     }

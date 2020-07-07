@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
         <activity android:name=".Login"></activity>
 
         <!--Register Activity-->
@@ -49,8 +51,62 @@
             </intent-filter>
         </activity>
 
-        <!-- Selected Genre Page Activity-->
+        <!--Selected Genre Page Activity-->
         <activity android:name=".SelectedGenrePage">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Search Page Activity-->
+        <activity android:name=".Search">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--AboutUs Page Activity-->
+        <activity android:name=".AboutUs">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Order Page Activity-->
+        <activity android:name=".Order">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Featured Page Activity-->
+        <activity android:name=".Featured">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Account Page Activity-->
+        <activity android:name=".Account">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--Recommended Page Activity-->
+        <activity android:name=".Recommended">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 

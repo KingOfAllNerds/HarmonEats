@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         featuredButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent genreIntent = new Intent(getApplicationContext(), FoodGenresPageOne.class);
+                Intent genreIntent = new Intent(getApplicationContext(), FoodGenresScrollPage.class);
                 startActivity(genreIntent);
             }
         });

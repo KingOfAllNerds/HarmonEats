@@ -34,7 +34,7 @@
         </activity>
 
         <!--Food Genre Page One Activity-->
-        <activity android:name=".FoodGenresPageOne">
+        <activity android:name=".FoodGenresScrollPage">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -43,13 +43,6 @@
         </activity>
 
         <!--Food Genre Page Two Activity-->
-        <activity android:name=".FoodGenresPageTwo">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
 
         <!--Selected Genre Page Activity-->
         <activity android:name=".SelectedGenrePage">

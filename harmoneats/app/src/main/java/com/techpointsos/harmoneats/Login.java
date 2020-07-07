@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class Login extends AppCompatActivity {
     private Button loginButton;
     private TextView mRegisterButton;
     private FirebaseAuth mAuth;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String email = uemail.getText().toString().trim();
                 String pass = upass.getText().toString().trim();
-
 
                 if(TextUtils.isEmpty(email)){
                     uemail.setError("Email is required");
@@ -76,5 +77,7 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
+
 
 }

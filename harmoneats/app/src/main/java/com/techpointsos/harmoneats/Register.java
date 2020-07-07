@@ -23,6 +23,8 @@ public class Register extends AppCompatActivity {
     private Button regButton;
     private TextView mLoginButton;
     private FirebaseAuth mAuth;
+    private VerifyPhoneActivity mVerify;
+    private String phoneNumber;
 
 
 
@@ -87,13 +89,16 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Register.this, "User Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                         else {
                             Toast.makeText(Register.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+                Intent verifyIntent = new Intent(getApplicationContext(), VerifyPhoneActivity.class);
+                verifyIntent.putExtra("phone number", uphone.toString());
+                startActivity(verifyIntent);
             }
         });
     }

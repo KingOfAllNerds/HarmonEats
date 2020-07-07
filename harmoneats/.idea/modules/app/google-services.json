@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "372774860510-l21ncc3vc4q77pktrcbqa3udljhha6fm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techpointsos.harmoneats",
+            "certificate_hash": "8e42c0147a2ed5ec47a5393fde315913b8c87e71"
+          }
+        },
+        {
           "client_id": "372774860510-6n7apvi4ilklcf67q5blhb3aagolqo01.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

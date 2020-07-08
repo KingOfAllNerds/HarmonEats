@@ -23,7 +23,7 @@ public class Register extends AppCompatActivity {
     private Button regButton;
     private TextView mLoginButton;
     private FirebaseAuth mAuth;
-    private VerifyPhoneActivity mVerify;
+    private VerifyEmailActivity mVerify;
     private String phoneNumber;
 
 
@@ -96,8 +96,7 @@ public class Register extends AppCompatActivity {
                     }
                 });
 
-                Intent verifyIntent = new Intent(getApplicationContext(), VerifyPhoneActivity.class);
-                verifyIntent.putExtra("phone number", uphone.toString());
+                Intent verifyIntent = new Intent(getApplicationContext(), VerifyEmailActivity.class);
                 startActivity(verifyIntent);
             }
         });

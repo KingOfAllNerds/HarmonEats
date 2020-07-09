@@ -1,5 +1,6 @@
 package com.techpointsos.harmoneats;
 
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.media.Image;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Search extends AppCompatActivity {
+public class Search extends AppCompatActivity implements RecyclerViewClickInterface{
 
     RecyclerView recyclerView;
     SearchAdapter searchAdapter;
@@ -28,7 +29,7 @@ public class Search extends AppCompatActivity {
 
         restaurants = new ArrayList<HashMap<String,Object>>();
         recyclerView = findViewById(R.id.searchView);
-        searchAdapter = new SearchAdapter(restaurants);
+        searchAdapter = new SearchAdapter(restaurants,this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -71,5 +72,18 @@ public class Search extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getApplicationContext(),RestaurantPage.class);
+        intent.putExtra("name",(String) restaurants.get(position).get("name"));
+        intent.putExtra("description",(String) restaurants.get(position).get("description"));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
+
     }
 }

@@ -7,7 +7,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +19,17 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
 
     private static final String TAG = "SearchAdapter";
+    private RecyclerViewClickInterface recyclerViewClickInterface;
     List<HashMap<String,Object>> restaurantList;
     List<HashMap<String,Object>> restaurantListsAll;
+//    List list = Collections.synchronizedList(new ArrayList(...));
 
-    public SearchAdapter(List<HashMap<String,Object>> restaurantList) {
+    public SearchAdapter(List<HashMap<String,Object>> restaurantList, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.restaurantList = restaurantList;
+        this.recyclerViewClickInterface = recyclerViewClickInterface;
         this.restaurantListsAll = new ArrayList<>(restaurantList);
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,18 +58,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return restaurantFilter;
     }
 
+    //TODO: This is where I think the issue is
     Filter restaurantFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence sequence) {
-            List<HashMap<String,Object>> filteredList = new ArrayList<>();
 
-            if(sequence == null || sequence.length() == 0) {
+        //Automatic on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            List<HashMap<String, Object>> filteredList = new ArrayList<>();
+
+            if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(restaurantListsAll);
             } else {
-                for(HashMap<String,Object> restaurant : restaurantListsAll) {
-                    String name = restaurant.get("name").toString().toLowerCase();
-                    String description = restaurant.get("description").toString().toLowerCase();
-                    String searchQuery = sequence.toString().toLowerCase();
+                for (HashMap<String,Object> restaurant: restaurantListsAll) {
+                    String name = restaurant.get("name").toString().toLowerCase().trim();
+                    String description = restaurant.get("description").toString().toLowerCase().trim();
+                    String searchQuery = charSequence.toString().toLowerCase().trim();
 
                     if(name.contains(searchQuery) || description.contains(searchQuery)) {
                         filteredList.add(restaurant);
@@ -78,15 +85,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             return filterResults;
         }
 
+        //Automatic on UI thread
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             restaurantList.clear();
-            restaurantList.addAll((Collection<? extends HashMap<String, Object>>) results.values);
+            restaurantList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView restaurantName, briefDesc;
 
@@ -97,21 +107,23 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             restaurantName = itemView.findViewById(R.id.restaurantName);
             briefDesc = itemView.findViewById(R.id.briefDesc);
 
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recyclerViewClickInterface.onItemClick(getAdapterPosition());
+                }
+            });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    restaurantList.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
+//                    restaurantList.remove(getAdapterPosition());
+//                    notifyItemRemoved(getAdapterPosition());
+                    recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
                     return true;
                 }
             });
         }
 
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(v.getContext(),(String) restaurantList.get(getAdapterPosition()).get("name"),Toast.LENGTH_SHORT).show();
-        }
     }
 }

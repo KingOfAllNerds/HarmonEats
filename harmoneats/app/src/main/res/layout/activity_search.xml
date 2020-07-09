@@ -7,10 +7,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchView"
-        android:layout_width="412dp"
-        android:layout_height="562dp"
-        android:layout_marginTop="168dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package com.techpointsos.harmoneats;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,16 +12,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
 
     private static final String TAG = "SearchAdapter";
     List<HashMap<String,Object>> restaurantList;
+    List<HashMap<String,Object>> restaurantListsAll;
 
     public SearchAdapter(List<HashMap<String,Object>> restaurantList) {
         this.restaurantList = restaurantList;
+        this.restaurantListsAll = new ArrayList<>(restaurantList);
     }
     @NonNull
     @Override
@@ -43,6 +49,42 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     public int getItemCount() {
         return restaurantList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return restaurantFilter;
+    }
+
+    Filter restaurantFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence sequence) {
+            List<HashMap<String,Object>> filteredList = new ArrayList<>();
+
+            if(sequence == null || sequence.length() == 0) {
+                filteredList.addAll(restaurantListsAll);
+            } else {
+                for(HashMap<String,Object> restaurant : restaurantListsAll) {
+                    String name = restaurant.get("name").toString().toLowerCase();
+                    String description = restaurant.get("description").toString().toLowerCase();
+                    String searchQuery = sequence.toString().toLowerCase();
+
+                    if(name.contains(searchQuery) || description.contains(searchQuery)) {
+                        filteredList.add(restaurant);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            restaurantList.clear();
+            restaurantList.addAll((Collection<? extends HashMap<String, Object>>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;

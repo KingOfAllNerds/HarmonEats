@@ -3,31 +3,24 @@ package com.techpointsos.harmoneats;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
     private static final String TAG = "SearchAdapter";
     private RecyclerViewClickInterface recyclerViewClickInterface;
     List<HashMap<String,Object>> restaurantList;
-    List<HashMap<String,Object>> restaurantListsAll;
-//    List list = Collections.synchronizedList(new ArrayList(...));
 
     public SearchAdapter(List<HashMap<String,Object>> restaurantList, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.restaurantList = restaurantList;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
-        this.restaurantListsAll = new ArrayList<>(restaurantList);
     }
 
     @NonNull
@@ -53,48 +46,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return restaurantList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return restaurantFilter;
+    public void filterList(List<HashMap<String, Object>> filteredList) {
+        restaurantList = filteredList;
+        notifyDataSetChanged();
     }
-
-    //TODO: This is where I think the issue is
-    Filter restaurantFilter = new Filter() {
-
-        //Automatic on background thread
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-
-            List<HashMap<String, Object>> filteredList = new ArrayList<>();
-
-            if (charSequence == null || charSequence.length() == 0) {
-                filteredList.addAll(restaurantListsAll);
-            } else {
-                for (HashMap<String,Object> restaurant: restaurantListsAll) {
-                    String name = restaurant.get("name").toString().toLowerCase().trim();
-                    String description = restaurant.get("description").toString().toLowerCase().trim();
-                    String searchQuery = charSequence.toString().toLowerCase().trim();
-
-                    if(name.contains(searchQuery) || description.contains(searchQuery)) {
-                        filteredList.add(restaurant);
-                    }
-                }
-            }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-            return filterResults;
-        }
-
-        //Automatic on UI thread
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            restaurantList.clear();
-            restaurantList.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
-
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -117,8 +72,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//                    restaurantList.remove(getAdapterPosition());
-//                    notifyItemRemoved(getAdapterPosition());
                     recyclerViewClickInterface.onLongItemClick(getAdapterPosition());
                     return true;
                 }

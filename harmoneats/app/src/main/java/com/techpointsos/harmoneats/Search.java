@@ -2,13 +2,12 @@ package com.techpointsos.harmoneats;
 
 import android.content.Intent;
 import android.graphics.drawable.Icon;
-import android.media.Image;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,34 +43,51 @@ public class Search extends AppCompatActivity implements RecyclerViewClickInterf
         restaurants.add(makeEntry("Milktooth", "Hip, modern diner with a patio for inventive breakfast & brunch items, plus espresso & cocktails.", null));
         restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.\n", null));
         restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
+
+        EditText editText = findViewById(R.id.searchBar);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
     }
 
-    public HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
+    private void filter(String search) {
+        List<HashMap<String,Object>> filteredList = new ArrayList<>();
+
+        if (search == null || search.length() == 0) {
+            filteredList.addAll(restaurants);
+        } else {
+            for (HashMap<String,Object> restaurant: restaurants) {
+
+                String name = restaurant.get("name").toString().toLowerCase().trim();
+                String description = restaurant.get("description").toString().toLowerCase().trim();
+                String searchQuery = search.toLowerCase().trim();
+
+                if(name.contains(searchQuery) || description.contains(searchQuery)) {
+                    filteredList.add(restaurant);
+                }
+            }
+        }
+        searchAdapter.filterList(filteredList);
+    }
+    private HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name",name);
         map.put("description",description);
         map.put("icon",icon);
         return map;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search,menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

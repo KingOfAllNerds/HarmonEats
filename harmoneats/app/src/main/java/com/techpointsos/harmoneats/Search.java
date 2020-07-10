@@ -82,6 +82,7 @@ public class Search extends AppCompatActivity implements RecyclerViewClickInterf
         }
         searchAdapter.filterList(filteredList);
     }
+
     private HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("name",name);

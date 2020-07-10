@@ -18,10 +18,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class VerifyEmailActivity extends AppCompatActivity {
 
-    private TextView verifiedTextView;
     private Button sendVerificationButton, checkVerifyButton;
     private FirebaseAuth mAuth;
     private Intent verifyIntent;
+    private String email;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
@@ -30,39 +31,35 @@ public class VerifyEmailActivity extends AppCompatActivity {
 
         verifyIntent = getIntent();
         mAuth = FirebaseAuth.getInstance();
-        verifiedTextView = findViewById(R.id.verifiedTextView);
         checkVerifyButton = findViewById(R.id.checkVerifiedButton);
         sendVerificationButton = findViewById(R.id.sendVerificationButton);
-
-        loadUserInformation();
+        user = mAuth.getCurrentUser();
+        setCheckVerifyButton(checkVerifyButton);
+        setSendVerifyButton(sendVerificationButton);
     }
-    private void loadUserInformation(){
 
-        final FirebaseUser user = mAuth.getCurrentUser();
-
-        checkVerifyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (user != null) {
-                    if (user.isEmailVerified()) {
-                        verifiedTextView.setText("Email Verified");
-                    } else {
-                        verifiedTextView.setText("Email Not Verified. Press Send Verification Button, please.");
-                    }
-                }
-            }
-        });
-
+    private void setSendVerifyButton(Button sendVerificationButton){
         sendVerificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(mainIntent);
+                if(user != null){
+                    user.sendEmailVerification();
+                }
+            }
+        });
+    }
+
+    private void setCheckVerifyButton(Button checkVerifyButton){
+        checkVerifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user != null) {
+                    if (user.isEmailVerified()) {
+                        Toast.makeText(VerifyEmailActivity.this, "User is verified.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(VerifyEmailActivity.this, "Click Send Verification to verify email.", Toast.LENGTH_LONG).show();
                     }
-                });
+                }
             }
         });
     }

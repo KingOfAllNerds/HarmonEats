@@ -20,8 +20,6 @@ public class VerifyEmailActivity extends AppCompatActivity {
 
     private Button sendVerificationButton, checkVerifyButton;
     private FirebaseAuth mAuth;
-    private Intent verifyIntent;
-    private String email;
     private FirebaseUser user;
 
     @Override
@@ -29,34 +27,39 @@ public class VerifyEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_verification);
 
-        verifyIntent = getIntent();
         mAuth = FirebaseAuth.getInstance();
         checkVerifyButton = findViewById(R.id.checkVerifiedButton);
         sendVerificationButton = findViewById(R.id.sendVerificationButton);
-        user = mAuth.getCurrentUser();
+
+        user = mAuth.getCurrentUser();      //Get necessary current user information.
+
         setCheckVerifyButton(checkVerifyButton);
         setSendVerifyButton(sendVerificationButton);
     }
-
+    /*
+        Set the "Send Verification" button to send a new verification email to the user.
+     */
     private void setSendVerifyButton(Button sendVerificationButton){
         sendVerificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user != null){
-                    user.sendEmailVerification();
+                if(user != null){   //Avoid Null Pionter Exceptions
+                    user.sendEmailVerification();   //Send the user a new verification email.
                 }
             }
         });
     }
-
+    /*
+        Set the "Check Verification" button to let the user know if they are verified or not.
+     */
     private void setCheckVerifyButton(Button checkVerifyButton){
         checkVerifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user != null) {
-                    if (user.isEmailVerified()) {
+                if(user != null) {  //Avoid Null Pointer Exceptions
+                    if (user.isEmailVerified()) {   //Check if the email address is verified.
                         Toast.makeText(VerifyEmailActivity.this, "User is verified.", Toast.LENGTH_LONG).show();
-                    } else {
+                    } else {    //Instruct user to send a new verification email if they are not verified.
                         Toast.makeText(VerifyEmailActivity.this, "Click Send Verification to verify email.", Toast.LENGTH_LONG).show();
                     }
                 }

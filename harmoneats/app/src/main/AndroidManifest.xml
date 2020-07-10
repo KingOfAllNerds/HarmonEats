@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"> <!--Added to get user info for verification -->
         <activity android:name=".Login"></activity>
         <activity android:name=".Register">
             <intent-filter>

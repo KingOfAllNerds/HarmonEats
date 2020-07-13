@@ -2,13 +2,23 @@ package com.techpointsos.harmoneats;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class Account extends AppCompatActivity {
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+
+public class Account extends Fragment {
+
+    public Account() {
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_account, container, false);
     }
 }

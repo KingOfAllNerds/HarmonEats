@@ -1,36 +1,54 @@
 package com.techpointsos.harmoneats;
 
-import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Search extends AppCompatActivity implements RecyclerViewClickInterface{
+public class Search extends Fragment implements RecyclerViewClickInterface {
 
     RecyclerView recyclerView;
     SearchAdapter searchAdapter;
     List<HashMap<String,Object>> restaurants;
 
+    public Search() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.searchView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         restaurants = new ArrayList<HashMap<String,Object>>();
-        recyclerView = findViewById(R.id.searchView);
+        recyclerView = view.findViewById(R.id.searchView);
         searchAdapter = new SearchAdapter(restaurants,this);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(searchAdapter);
 
@@ -44,7 +62,7 @@ public class Search extends AppCompatActivity implements RecyclerViewClickInterf
         restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.\n", null));
         restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
 
-        EditText editText = findViewById(R.id.searchBar);
+        EditText editText = view.findViewById(R.id.searchBar);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -61,6 +79,7 @@ public class Search extends AppCompatActivity implements RecyclerViewClickInterf
                 filter(s.toString());
             }
         });
+
     }
 
     private void filter(String search) {
@@ -93,10 +112,7 @@ public class Search extends AppCompatActivity implements RecyclerViewClickInterf
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(getApplicationContext(),RestaurantPage.class);
-        intent.putExtra("name",(String) restaurants.get(position).get("name"));
-        intent.putExtra("description",(String) restaurants.get(position).get("description"));
-        startActivity(intent);
+
     }
 
     @Override

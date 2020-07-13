@@ -37,6 +37,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.briefDesc.setText(menu.get(position).get("description"));
         holder.restaurantName.setText(menu.get(position).get("item"));
+        holder.priceTag.setText("$"+menu.get(position).get("price"));
     }
 
     //Should return number of restaurants in search list
@@ -47,7 +48,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView restaurantName, briefDesc;
+        TextView restaurantName, briefDesc, priceTag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +56,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             imageView = itemView.findViewById(R.id.imageView);
             restaurantName = itemView.findViewById(R.id.restaurantName);
             briefDesc = itemView.findViewById(R.id.briefDesc);
+            priceTag = itemView.findViewById(R.id.priceTag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

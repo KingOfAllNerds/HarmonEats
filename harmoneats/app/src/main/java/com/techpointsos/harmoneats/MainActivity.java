@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logoutButton, genresButton;
+    private Button logoutButton, genresButton, driverButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         logoutButton = (Button) findViewById(R.id.logoutButton);
         genresButton = (Button) findViewById(R.id.genresButton);
-
+        driverButton = (Button) findViewById(R.id.driverButton);
         genresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,7 +34,15 @@ public class MainActivity extends AppCompatActivity {
                 logout(view);
             }
         });
+
+        driverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), UsermapActivity.class));
+            }
+        });
     }
+
 
     public void logout(View view){
         FirebaseAuth.getInstance().signOut();

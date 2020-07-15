@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
-            restaurantName = itemView.findViewById(R.id.restaurantName);
+            restaurantName = itemView.findViewById(R.id.itemName);
             briefDesc = itemView.findViewById(R.id.briefDesc);
             priceTag = itemView.findViewById(R.id.priceTag);
 

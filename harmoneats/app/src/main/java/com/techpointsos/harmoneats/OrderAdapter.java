@@ -12,48 +12,42 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
-
-    private static final String TAG = "SearchAdapter";
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
+    private static final String TAG = "MenuAdapter";
     private RecyclerViewClickInterface recyclerViewClickInterface;
-    List<HashMap<String,Object>> restaurantList;
+    List<HashMap<String,String>> menu;
 
-    public SearchAdapter(List<HashMap<String,Object>> restaurantList, RecyclerViewClickInterface recyclerViewClickInterface) {
-        this.restaurantList = restaurantList;
+    public OrderAdapter(List<HashMap<String,String>> menu, RecyclerViewClickInterface recyclerViewClickInterface) {
+        this.menu = menu;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.search_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.menu_item,parent,false);
 
-        ViewHolder viewHolder = new ViewHolder(view);
+        OrderAdapter.ViewHolder viewHolder = new OrderAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.briefDesc.setText((String) restaurantList.get(position).get("description"));
-        holder.restaurantName.setText((String) restaurantList.get(position).get("name"));
-//        holder.imageView.setImageIcon((Icon) restaurantList.get(position).get("icon"));
+        holder.briefDesc.setText(menu.get(position).get("description"));
+        holder.restaurantName.setText(menu.get(position).get("item"));
+        holder.priceTag.setText("$"+menu.get(position).get("price"));
     }
 
     //Should return number of restaurants in search list
     @Override
     public int getItemCount() {
-        return restaurantList.size();
-    }
-
-    public void filterList(List<HashMap<String, Object>> filteredList) {
-        restaurantList = filteredList;
-        notifyDataSetChanged();
+        return menu.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView restaurantName, briefDesc;
+        TextView restaurantName, briefDesc, priceTag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             imageView = itemView.findViewById(R.id.imageView);
             restaurantName = itemView.findViewById(R.id.itemName);
             briefDesc = itemView.findViewById(R.id.briefDesc);
+            priceTag = itemView.findViewById(R.id.priceTag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

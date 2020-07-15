@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,9 +23,9 @@ import java.util.List;
 
 public class Search extends Fragment implements RecyclerViewClickInterface {
 
-    RecyclerView recyclerView;
-    SearchAdapter searchAdapter;
-    List<HashMap<String,Object>> restaurants;
+    private RecyclerView recyclerView;
+    private SearchAdapter searchAdapter;
+    private List<HashMap<String,Object>> restaurants;
 
     public Search() {
         // Required empty public constructor
@@ -62,7 +60,7 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.\n", null));
         restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
 
-        EditText editText = view.findViewById(R.id.searchBar);
+        EditText editText = view.findViewById(R.id.special_requests);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,7 +110,11 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
 
     @Override
     public void onItemClick(int position) {
-
+        String restaurantName = restaurants.get(position).get("name").toString();
+        String restaurantDescription = restaurants.get(position).get("description").toString();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription));
+        fragmentTransaction.commit();
     }
 
     @Override

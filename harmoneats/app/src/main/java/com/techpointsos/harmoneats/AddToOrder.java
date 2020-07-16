@@ -44,7 +44,7 @@ public class AddToOrder extends Fragment {
     }
 
     public interface OnItemAddedToOrderListener {
-        public void onItemAdded(BigDecimal currentPrice, int itemCount ,String itemName);
+        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName);
     }
 
     @Override

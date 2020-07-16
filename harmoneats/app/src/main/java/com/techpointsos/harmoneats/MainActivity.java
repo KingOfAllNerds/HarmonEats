@@ -108,5 +108,6 @@ public class MainActivity extends AppCompatActivity
         map.put("count",itemCount);
         map.put("name",itemName);
         orderItems.add(map);
+        orderFragment = new Order(orderItems);
     }
 }

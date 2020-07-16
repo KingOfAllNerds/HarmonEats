@@ -45,10 +45,6 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         super.onViewCreated(view, savedInstanceState);
 
         restaurants = new ArrayList<HashMap<String,Object>>();
-        recyclerView = view.findViewById(R.id.searchView);
-        searchAdapter = new SearchAdapter(restaurants,this);
-
-        recyclerView.setAdapter(searchAdapter);
 
         restaurants.add(makeEntry("Harry & Izzy's", "Upscale steakhouse with a notable wine selection & a contemporary spin on chops, seafood & pizza.", null));
         restaurants.add(makeEntry("Livery", "Stylish bi-level spot with an all-season rooftop patio for Latin classics & lots of tequila.", null));
@@ -57,7 +53,7 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         restaurants.add(makeEntry("The Eagle Mass Ave", "Rustic-chic eatery & beer hall dishing up Southern classics in sprawling digs with a patio.", null));
         restaurants.add(makeEntry("OP Italian Indy", "JW Marriott restaurant serving Italian fare in a sleek space with a bar & glass-enclosed wine room.", null));
         restaurants.add(makeEntry("Milktooth", "Hip, modern diner with a patio for inventive breakfast & brunch items, plus espresso & cocktails.", null));
-        restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.\n", null));
+        restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.", null));
         restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
 
         EditText editText = view.findViewById(R.id.special_requests);
@@ -78,6 +74,9 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
             }
         });
 
+        recyclerView = view.findViewById(R.id.searchView);
+        searchAdapter = new SearchAdapter(restaurants, this);
+        recyclerView.setAdapter(searchAdapter);
     }
 
     private void filter(String search) {

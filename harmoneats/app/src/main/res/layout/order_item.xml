@@ -7,7 +7,7 @@
     android:background="?attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/itemName"
+        android:id="@+id/order_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/briefDesc"
+        android:id="@+id/order_item_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -31,10 +31,10 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/priceTag" />
+        app:layout_constraintTop_toBottomOf="@+id/order_item_price" />
 
     <TextView
-        android:id="@+id/priceTag"
+        android:id="@+id/order_item_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -45,6 +45,6 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemName" />
+        app:layout_constraintTop_toBottomOf="@+id/order_item_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

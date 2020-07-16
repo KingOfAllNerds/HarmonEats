@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
-    private static final String TAG = "MenuAdapter";
+    private static final String TAG = "OrderAdapter";
     private RecyclerViewClickInterface recyclerViewClickInterface;
-    List<HashMap<String,String>> menu;
+    List<HashMap<String,Object>> order;
 
-    public OrderAdapter(List<HashMap<String,String>> menu, RecyclerViewClickInterface recyclerViewClickInterface) {
-        this.menu = menu;
+    public OrderAdapter(List<HashMap<String,Object>> order, RecyclerViewClickInterface recyclerViewClickInterface) {
+        this.order = order;
         this.recyclerViewClickInterface = recyclerViewClickInterface;
     }
 
@@ -26,7 +26,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.menu_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.order_item,parent,false);
 
         OrderAdapter.ViewHolder viewHolder = new OrderAdapter.ViewHolder(view);
         return viewHolder;
@@ -34,28 +34,27 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.briefDesc.setText(menu.get(position).get("description"));
-        holder.restaurantName.setText(menu.get(position).get("item"));
-        holder.priceTag.setText("$"+menu.get(position).get("price"));
+        holder.itemCount.setText("Quantity: "+(Integer) order.get(position).get("count"));
+        holder.itemName.setText((String) order.get(position).get("name"));
+        holder.price.setText("$"+order.get(position).get("price"));
     }
 
     //Should return number of restaurants in search list
     @Override
     public int getItemCount() {
-        return menu.size();
+        return order.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView restaurantName, briefDesc, priceTag;
+        TextView itemName, itemCount, price;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.imageView);
-            restaurantName = itemView.findViewById(R.id.itemName);
-            briefDesc = itemView.findViewById(R.id.briefDesc);
-            priceTag = itemView.findViewById(R.id.priceTag);
+            itemName = itemView.findViewById(R.id.order_item_name);
+            itemCount = itemView.findViewById(R.id.order_item_count);
+            price = itemView.findViewById(R.id.order_item_price);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

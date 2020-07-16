@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Order extends Fragment {
+public class Order extends Fragment implements RecyclerViewClickInterface{
 
     private List<HashMap<String,Object>> orderItems;
+    private RecyclerView recyclerView;
+    private OrderAdapter orderAdapter;
 
     public Order(List<HashMap<String,Object>> orderItems) {
         this.orderItems = orderItems;
@@ -38,10 +40,27 @@ public class Order extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button completeOrder = view.findViewById(R.id.complete_order);
+
+        recyclerView = view.findViewById(R.id.order_view);
+        orderAdapter = new OrderAdapter(orderItems, this);
+        recyclerView.setAdapter(orderAdapter);
+
         if(orderItems.size() < 1) {
-            completeOrder.setText("Check out - $0.00");
+            completeOrder.setText("Select items from a restaurant first!");
+            completeOrder.setClickable(false);
         } else {
-            completeOrder.setText("YAY");
+
+            completeOrder.setClickable(true);
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onLongItemClick(int position) {
+        orderItems.remove(position);
     }
 }

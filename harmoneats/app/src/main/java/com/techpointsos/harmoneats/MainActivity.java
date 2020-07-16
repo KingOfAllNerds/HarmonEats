@@ -11,12 +11,29 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button logout;
+    private Button logoutButton, genresButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        genresButton = (Button) findViewById(R.id.genresButton);
+
+        genresButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent genreIntent = new Intent(getApplicationContext(), FoodGenresPageOne.class);
+                startActivity(genreIntent);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout(view);
+            }
+        });
     }
 
     public void logout(View view){

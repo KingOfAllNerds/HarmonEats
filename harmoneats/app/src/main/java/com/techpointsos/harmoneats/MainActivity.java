@@ -20,46 +20,48 @@ import com.google.android.gms.common.internal.AccountType;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.GregorianCalendar;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener,
+        AddToOrder.OnItemAddedToOrderListener {
 
     private BottomNavigationView bottomNavigationView;
+    private List<HashMap<String,Object>> orderItems = new ArrayList<>();
+
+    Search searchFragment = new Search();
+    Order orderFragment = new Order(orderItems);
+    Recommended recommendedFragment = new Recommended();
+    Account accountFragment = new Account();
+    Featured featuredFragment = new Featured();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.navigationBar);
-        bottomNavigationView.setSelectedItemId(R.id.fragment_search);
+        bottomNavigationView.setSelectedItemId(R.id.fragment_featured);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-//        logoutButton = (Button) findViewById(R.id.logoutButton);
-//
-//        logoutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                logout(view);
-//            }
-//        });
-
     }
 
-    public void logout(View view){
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment instanceof AddToOrder) {
+            AddToOrder addToOrderFragment = (AddToOrder) fragment;
+            addToOrderFragment.setOnItemAddedToOrderListener(this);
+        }
+    }
+    public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
 
-    Search searchFragment = new Search();
-    Order orderFragment = new Order();
-    Recommended recommendedFragment = new Recommended();
-    Account accountFragment = new Account();
-    Featured featuredFragment = new Featured();
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment selectedFragment = null;
         switch (item.getItemId()) {
             case R.id.fragment_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
@@ -93,10 +95,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.about_us:
                 return true;
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Login.class));
+                logout();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName) {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("price",currentPrice);
+        map.put("count",itemCount);
+        map.put("name",itemName);
+        orderItems.add(map);
     }
 }

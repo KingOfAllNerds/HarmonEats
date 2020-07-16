@@ -17,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.List;
 
 public class AddToOrder extends Fragment {
 
@@ -26,6 +28,7 @@ public class AddToOrder extends Fragment {
     private int itemCount;
     private BigDecimal currentPrice;
     private TextView itemCountBox, itemDescriptionBox, itemNameBox;
+    OnItemAddedToOrderListener callback;
 
     public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice) {
         this.itemName = itemName;
@@ -34,6 +37,16 @@ public class AddToOrder extends Fragment {
         this.currentPrice = itemPrice;
         this.itemCount = 1;
     }
+
+
+    public void setOnItemAddedToOrderListener(OnItemAddedToOrderListener callback) {
+        this.callback = callback;
+    }
+
+    public interface OnItemAddedToOrderListener {
+        public void onItemAdded(BigDecimal currentPrice, int itemCount ,String itemName);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +95,7 @@ public class AddToOrder extends Fragment {
         addToOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                callback.onItemAdded(currentPrice,itemCount,itemName);
             }
         });
     }

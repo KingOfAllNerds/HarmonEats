@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+        <activity android:name=".Login"></activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -47,6 +50,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <!--Food Genre Page One Activity-->
+        <activity android:name=".FoodGenresScrollPage">
         </activity> <!-- Food Genre Page One Activity -->
         <activity android:name=".FoodGenresPageOne">
             <intent-filter>
@@ -54,6 +61,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <!--Food Genre Page Two Activity-->
+
+        <!--Selected Genre Page Activity-->
         </activity> <!-- Food Genre Page Two Activity -->
         <activity android:name=".FoodGenresPageTwo">
             <intent-filter>
@@ -69,6 +81,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

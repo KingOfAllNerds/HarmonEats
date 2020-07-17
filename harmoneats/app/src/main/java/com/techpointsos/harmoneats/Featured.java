@@ -65,15 +65,15 @@ public class Featured extends Fragment implements RecyclerViewClickInterface {
     public void continueOnViewCreated(){
         featuredList = new ArrayList<HashMap<String, Object>>();
 
-        featuredList.add(makeEntry("Harry & Izzy's", "Upscale steakhouse with a notable wine selection & a contemporary spin on chops, seafood & pizza.", null));
-        featuredList.add(makeEntry("Livery", "Stylish bi-level spot with an all-season rooftop patio for Latin classics & lots of tequila.", null));
-        featuredList.add(makeEntry("Vida", "Modern American plates & drinks in a trendy space boasting a fireplace, bar & herb wall.", null));
-        featuredList.add(makeEntry("Tinker Street Restaurant", "New American outpost with a patio serving wines, brews & seasonal fare in a warm, upbeat setting.", null));
-        featuredList.add(makeEntry("The Eagle Mass Ave", "Rustic-chic eatery & beer hall dishing up Southern classics in sprawling digs with a patio.", null));
-        featuredList.add(makeEntry("OP Italian Indy", "JW Marriott restaurant serving Italian fare in a sleek space with a bar & glass-enclosed wine room.", null));
-        featuredList.add(makeEntry("Milktooth", "Hip, modern diner with a patio for inventive breakfast & brunch items, plus espresso & cocktails.", null));
-        featuredList.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.", null));
-        featuredList.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
+        featuredList.add(makeEntry("Cafe Patachou", "A student union for adults since 1989!", null));
+        featuredList.add(makeEntry("Txuleta Basque Cider House", "A steak-and-cider house that sits on top of their flagship Brugge Brasserie.", null));
+        featuredList.add(makeEntry("Beholder", "From the owner of Milktooth, a restaurant that continually refreshers there menu which guarantees a new experience every time.", null));
+        featuredList.add(makeEntry("The Inferno Room", "A fantasia of classic Tiki cuisine - sliders to crab rangoon - with amazing classic cocktails.", null));
+        featuredList.add(makeEntry("Ukiyo", "Featuring one-of-a-kind 'designer rolls', Neal Brown constantly wows with his fresh menu and fresher fish.", null));
+        featuredList.add(makeEntry("Crispy Bird", "From the owners of Cafe Patachou, this fried chicken palace also serves up sides that will make you forget about the colonel.", null));
+        featuredList.add(makeEntry("RIZE", "Located in the beautiful Iron Works complex, this restaurant specializes in their delicious brunches.", null));
+        featuredList.add(makeEntry("Provision", "Lauded for their drink menu, their cocktail menu and fresh entrees is a truly special corner of culture.", null));
+        featuredList.add(makeEntry("Bub's Burgers and Ice Cream", "A cheerful atmosphere and full, reasonably priced menu.  Don't miss out on the elk burger!", null));
 
         return;
     }

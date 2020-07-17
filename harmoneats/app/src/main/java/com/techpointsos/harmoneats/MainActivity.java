@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity
 
     private BottomNavigationView bottomNavigationView;
     private List<HashMap<String,Object>> orderItems = new ArrayList<>();
+    private FirebaseAuth mAuth;
+    private Account accountFragment;
 
     Search searchFragment = new Search();
     Order orderFragment = new Order(orderItems);
     Recommended recommendedFragment = new Recommended();
-    Account accountFragment = new Account();
     Featured featuredFragment = new Featured();
 
     @Override
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView = findViewById(R.id.navigationBar);
         bottomNavigationView.setSelectedItemId(R.id.fragment_featured);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        accountFragment = new Account(mAuth.getCurrentUser());
     }
 
     public void onAttachFragment(Fragment fragment) {
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.fragment_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();

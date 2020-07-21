@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        accountFragment = new Account(mAuth.getCurrentUser());
+        accountFragment = new Account(mAuth.getCurrentUser(), getApplicationContext());
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, featuredFragment).commit();
     }
 

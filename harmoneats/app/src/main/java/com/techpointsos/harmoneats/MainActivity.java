@@ -27,7 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener,
-        AddToOrder.OnItemAddedToOrderListener {
+        AddToOrder.OnItemAddedToOrderListener, Checkout.OnOrderCompleteListener {
 
     private BottomNavigationView bottomNavigationView;
     private List<HashMap<String,Object>> orderItems = new ArrayList<>();
@@ -50,12 +50,17 @@ public class MainActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         accountFragment = new Account(mAuth.getCurrentUser());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, featuredFragment).commit();
     }
 
     public void onAttachFragment(Fragment fragment) {
         if (fragment instanceof AddToOrder) {
             AddToOrder addToOrderFragment = (AddToOrder) fragment;
             addToOrderFragment.setOnItemAddedToOrderListener(this);
+        }
+        if(fragment instanceof Checkout) {
+            Checkout checkoutFragment = (Checkout) fragment;
+            checkoutFragment.setOnOrderCompleteListener(this);
         }
     }
     public void logout() {
@@ -114,5 +119,10 @@ public class MainActivity extends AppCompatActivity
         map.put("name",itemName);
         orderItems.add(map);
         orderFragment = new Order(orderItems);
+    }
+
+    @Override
+    public void onOrderComplete() {
+        orderFragment = new Order(new ArrayList<HashMap<String,Object>>());
     }
 }

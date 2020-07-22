@@ -47,4 +47,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemName" />
 
+    <Button
+        android:id="@+id/arButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View 3D model"
+        app:layout_constraintBottom_toBottomOf="@+id/priceTag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemName" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

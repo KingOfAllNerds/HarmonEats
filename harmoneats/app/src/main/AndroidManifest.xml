@@ -9,6 +9,8 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -33,17 +35,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data android:name="com.google.ar.core" android:value="required"/>
         <activity
             android:name=".UsermapActivity"
             android:label="@string/title_activity_driver"></activity>
-        <activity android:name=".Login" /> <!-- Register Activity -->
+         <!-- Register Activity -->
         <activity android:name=".Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main Activity -->
+        </activity>
+
+        <!-- Main Activity -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,8 +59,6 @@
 
         <!--Food Genre Page One Activity-->
         <activity android:name=".FoodGenresScrollPage">
-        </activity> <!-- Food Genre Page One Activity -->
-        <activity android:name=".FoodGenresPageOne">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -64,16 +67,7 @@
         </activity>
 
         <!--Food Genre Page Two Activity-->
-
-        <!--Selected Genre Page Activity-->
-        </activity> <!-- Food Genre Page Two Activity -->
-        <activity android:name=".FoodGenresPageTwo">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity> <!-- Selected Genre Page Activity -->
+    <!-- Selected Genre Page Activity -->
         <activity android:name=".SelectedGenrePage">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

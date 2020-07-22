@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-        accountFragment = new Account(mAuth.getCurrentUser());
+        accountFragment = new Account(mAuth.getCurrentUser(),getApplicationContext());
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, featuredFragment).commit();
     }
 
@@ -112,11 +112,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName) {
+    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests) {
         HashMap<String,Object> map = new HashMap<>();
         map.put("price",currentPrice);
         map.put("count",itemCount);
         map.put("name",itemName);
+        map.put("requests",specialRequests);
         orderItems.add(map);
         orderFragment = new Order(orderItems);
     }

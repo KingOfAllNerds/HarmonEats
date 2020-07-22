@@ -3,12 +3,14 @@ package com.techpointsos.harmoneats;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Account extends Fragment implements RecyclerViewClickInterface{
 
-    private TextView nameAccountTextView, emailAccountTextView;
-    private EditText emailResetEditText;
-    private Button resetPasswordButton, sendResetLinkButton;
+    private TextView nameAccountTextView, emailAccountTextView, passwordReset;
     private FirebaseUser user;
     private FirebaseAuth fAuth;
     private View myView;
@@ -53,44 +53,27 @@ public class Account extends Fragment implements RecyclerViewClickInterface{
         fAuth = FirebaseAuth.getInstance();
         nameAccountTextView = view.findViewById(R.id.nameAccountTextView);
         emailAccountTextView = view.findViewById(R.id.emailAccountTextView);
-        resetPasswordButton = (Button)view.findViewById(R.id.resetPasswordButton);
-        emailResetEditText = (EditText)view.findViewById(R.id.emailResetEditText);
-        sendResetLinkButton = (Button)view.findViewById(R.id.sendResetLinkButton);
+        passwordReset = view.findViewById(R.id.accountPasswordResetTextView);
 
-        nameAccountTextView.setText(user.getDisplayName());
-        emailAccountTextView.setText(user.getEmail());
+        if(user != null) {      //If we can't get a user, we need to have them login so we can access user info
+            nameAccountTextView.setText(user.getDisplayName());
+            emailAccountTextView.setText(user.getEmail());
+        }
+        else{
+            Toast.makeText(myView.getContext(), "Sorry, you need to log in first.", Toast.LENGTH_LONG).show();
+            Intent needToLoginIntent = new Intent(myView.getContext(), Login.class);
+            startActivity(needToLoginIntent);
+        }
 
-        setForgotPasswordListener(resetPasswordButton);
+        setResetPasswordListener(passwordReset);
     }
 
-    private void setForgotPasswordListener(Button resetPasswordButton){
-        resetPasswordButton.setOnClickListener(new View.OnClickListener() {
+    private void setResetPasswordListener(TextView passwordReset){
+        passwordReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailResetEditText.setVisibility(View.VISIBLE);
-                sendResetLinkButton.setVisibility(View.VISIBLE);
-
-                setSendResetLinkButton(sendResetLinkButton);
-            }
-        });
-    }
-
-    private void setSendResetLinkButton(Button sendResetLinkButton){
-        sendResetLinkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailResetEditText.getText().toString();
-                fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(myContext, "You have been sent a password reset link.", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(myContext, "Error!  Here is the exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                Intent resetPasswordIntent = new Intent(myView.getContext(), ResetPassword.class);
+                startActivity(resetPasswordIntent);
             }
         });
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,8 +19,9 @@ public class ResetPassword extends AppCompatActivity {
 
     private Class classToReturnTo;
     private EditText resetEmail;
+    private TextView resetConfirm;
     private FirebaseAuth fAuth;
-    private Button resetButton;
+
 
     public ResetPassword(){
 
@@ -31,14 +33,14 @@ public class ResetPassword extends AppCompatActivity {
         setContentView(R.layout.activity_reset_password);
 
         fAuth = FirebaseAuth.getInstance();
-        resetButton = findViewById(R.id.resetConfirmButton);
+        resetConfirm = findViewById(R.id.resetConfirmTextView);
         resetEmail = findViewById(R.id.resetEmailEditText);
 
-        setResetButton(resetButton);
+        setResetButton(resetConfirm);
     }
 
-    private void setResetButton(Button resetButton){
-        resetButton.setOnClickListener(new View.OnClickListener() {
+    private void setResetButton(TextView resetConfirm){
+        resetConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String emailToSendLink = resetEmail.getText().toString();

@@ -14,11 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.Feature;
 import com.google.android.gms.common.internal.AccountType;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -51,6 +53,13 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         accountFragment = new Account(mAuth.getCurrentUser(), getApplicationContext());
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, featuredFragment).commit();
+
+        FirebaseUser checkUserNull = mAuth.getCurrentUser(); //Check if we have a proper user before allowing access.
+        if(checkUserNull == null){
+            Toast.makeText(getApplicationContext(), "Sorry, you need to log in first.", Toast.LENGTH_LONG).show();
+            Intent needToLoginIntent = new Intent(getApplicationContext(), Login.class);
+            startActivity(needToLoginIntent);
+        }
     }
 
     public void onAttachFragment(Fragment fragment) {

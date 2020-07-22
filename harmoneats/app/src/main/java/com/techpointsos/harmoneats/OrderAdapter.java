@@ -37,6 +37,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.itemCount.setText("Quantity: "+(Integer) order.get(position).get("count"));
         holder.itemName.setText((String) order.get(position).get("name"));
         holder.price.setText("$"+order.get(position).get("price"));
+
+        String specialRequests = order.get(position).get("requests").toString();
+        if(!specialRequests.isEmpty()) {
+            holder.requests.setText("Special Requests: "+specialRequests);
+        } else {
+            holder.requests.setText("Special Requests: None");
+        }
+
     }
 
     //Should return number of restaurants in search list
@@ -47,7 +55,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView itemName, itemCount, price;
+        TextView itemName, itemCount, price, requests;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +63,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             itemName = itemView.findViewById(R.id.order_item_name);
             itemCount = itemView.findViewById(R.id.order_item_count);
             price = itemView.findViewById(R.id.order_item_price);
+            requests = itemView.findViewById(R.id.order_requests);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

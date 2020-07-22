@@ -1,17 +1,22 @@
 package com.techpointsos.harmoneats;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
+import com.google.android.gms.common.Feature;
+import com.google.android.gms.common.internal.AccountType;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,7 +30,7 @@ public class MainActivity extends AppCompatActivity
         AddToOrder.OnItemAddedToOrderListener, Checkout.OnOrderCompleteListener {
 
     private BottomNavigationView bottomNavigationView;
-    private List<HashMap<String, Object>> orderItems = new ArrayList<>();
+    private List<HashMap<String,Object>> orderItems = new ArrayList<>();
     private FirebaseAuth mAuth;
     private Account accountFragment;
 
@@ -53,12 +58,11 @@ public class MainActivity extends AppCompatActivity
             AddToOrder addToOrderFragment = (AddToOrder) fragment;
             addToOrderFragment.setOnItemAddedToOrderListener(this);
         }
-        if (fragment instanceof Checkout) {
+        if(fragment instanceof Checkout) {
             Checkout checkoutFragment = (Checkout) fragment;
             checkoutFragment.setOnOrderCompleteListener(this);
         }
     }
-
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), Login.class));
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         switch (item.getItemId()) {
             case R.id.fragment_search:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, searchFragment).commit();
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.popout_menu, menu);
+        inflater.inflate(R.menu.popout_menu,menu);
         return true;
     }
 
@@ -108,43 +112,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests) {
-        HashMap<String, Object> map = new HashMap<>();
-
-        map.put("price", currentPrice);
-        map.put("count", itemCount);
-        map.put("name", itemName);
-        map.put("requests", specialRequests);
-
-//        for(int i=0;i<orderItems.size();i++) {
-//            HashMap<String, Object> item = orderItems.get(i);
-//            if (item.get("price") != currentPrice ||
-//                    !((String) item.get("name")).equals(itemName) ||
-//                    !((String) item.get("requests")).equals(specialRequests)) {
-//                orderItems.add(map);
-//            } else {
-//                int currentItemCount = (int) orderItems.get(i).get("count");
-//                int newItemCount = itemCount + currentItemCount;
-//                orderItems.get(i).put("count", newItemCount);
-//            }
-//        }
+    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName) {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("price",currentPrice);
+        map.put("count",itemCount);
+        map.put("name",itemName);
         orderItems.add(map);
         orderFragment = new Order(orderItems);
     }
 
     @Override
-    public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            getSupportFragmentManager().popBackStack();
-        }
-    }
-
-    @Override
     public void onOrderComplete() {
-        orderFragment = new Order(new ArrayList<HashMap<String, Object>>());
+        orderFragment = new Order(new ArrayList<HashMap<String,Object>>());
     }
 }

@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!--Main Activity-->
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -33,7 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Reset Password Activity-->
+        <activity android:name=".ResetPassword">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <!--Food Genre Page One Activity-->
         <activity android:name=".FoodGenresScrollPage">
             <intent-filter>
@@ -42,8 +48,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <!--Food Genre Page Two Activity-->
 
         <!--Selected Genre Page Activity-->
         <activity android:name=".SelectedGenrePage">

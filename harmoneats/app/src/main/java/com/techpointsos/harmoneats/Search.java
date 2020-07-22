@@ -112,7 +112,7 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         String restaurantName = restaurants.get(position).get("name").toString();
         String restaurantDescription = restaurants.get(position).get("description").toString();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription));
+        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription)).addToBackStack(null);
         fragmentTransaction.commit();
     }
 

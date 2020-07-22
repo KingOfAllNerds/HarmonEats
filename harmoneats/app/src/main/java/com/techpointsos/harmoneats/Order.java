@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         completeOrder = view.findViewById(R.id.complete_order);
-
         recyclerView = view.findViewById(R.id.order_view);
+
         orderAdapter = new OrderAdapter(orderItems, this);
         recyclerView.setAdapter(orderAdapter);
 
@@ -53,7 +54,7 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
         completeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new Checkout()).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new Checkout()).addToBackStack(null).commit();
             }
         });
     }
@@ -65,7 +66,7 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
 
     @Override
     public void onLongItemClick(int position) {
-        orderPrice.subtract((BigDecimal) orderItems.get(position).get("price"));
+        orderPrice = orderPrice.subtract((BigDecimal) orderItems.get(position).get("price"));
         orderItems.remove(position);
         checkOrderSize();
         orderAdapter.notifyDataSetChanged();

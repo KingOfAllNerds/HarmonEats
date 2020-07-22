@@ -7,10 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,10 +27,12 @@ public class AddToOrder extends Fragment {
 
     private String itemName;
     private String itemDescription;
+    private String requests;
     private BigDecimal itemPrice;
     private int itemCount;
     private BigDecimal currentPrice;
     private TextView itemCountBox, itemDescriptionBox, itemNameBox;
+    private EditText specialRequests;
     OnItemAddedToOrderListener callback;
 
     public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice) {
@@ -44,7 +49,7 @@ public class AddToOrder extends Fragment {
     }
 
     public interface OnItemAddedToOrderListener {
-        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName);
+        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class AddToOrder extends Fragment {
         itemNameBox = view.findViewById(R.id.item_name);
         itemDescriptionBox = view.findViewById(R.id.item_description);
         itemCountBox = view.findViewById(R.id.item_count);
+        specialRequests = view.findViewById(R.id.special_requests);
 
         itemNameBox.setText(itemName);
         itemDescriptionBox.setText(itemDescription);
@@ -95,7 +101,7 @@ public class AddToOrder extends Fragment {
         addToOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemAdded(currentPrice,itemCount,itemName);
+                callback.onItemAdded(currentPrice,itemCount,itemName,specialRequests.getText().toString());
             }
         });
     }

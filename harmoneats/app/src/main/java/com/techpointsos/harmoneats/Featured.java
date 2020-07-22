@@ -111,7 +111,7 @@ public class Featured extends Fragment implements RecyclerViewClickInterface {
         String restaurantName = featuredList.get(position).get("name").toString();
         String restaurantDescription = featuredList.get(position).get("description").toString();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription));
+        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription)).addToBackStack(null);
         fragmentTransaction.commit();
     }
 

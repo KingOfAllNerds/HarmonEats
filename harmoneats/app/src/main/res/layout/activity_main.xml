@@ -13,12 +13,13 @@
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:itemIconTint="@android:color/secondary_text_light_nodisable"
-        app:itemTextColor="#000000"
+        app:itemTextColor="@android:color/secondary_text_light_nodisable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_navigation"
+        app:labelVisibilityMode="labeled"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

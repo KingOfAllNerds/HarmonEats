@@ -25,6 +25,7 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
     private List<HashMap<String,Object>> restaurants;
+    private List<HashMap<String,Object>> filterList;
 
     public Search() {
         // Required empty public constructor
@@ -64,6 +65,8 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         restaurants.add(makeEntry("Provision", "Lauded for their drink menu, their cocktail menu and fresh entrees is a truly special corner of culture.", null));
         restaurants.add(makeEntry("Bub's Burgers and Ice Cream", "A cheerful atmosphere and full, reasonably priced menu.  Don't miss out on the elk burger!", null));
 
+        filterList = restaurants;
+
         EditText editText = view.findViewById(R.id.special_requests);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,10 +91,10 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
     }
 
     private void filter(String search) {
-        List<HashMap<String,Object>> filteredList = new ArrayList<>();
+        filterList = new ArrayList<>();
 
         if (search == null || search.length() == 0) {
-            filteredList.addAll(restaurants);
+            filterList.addAll(restaurants);
         } else {
             for (HashMap<String,Object> restaurant: restaurants) {
 
@@ -100,11 +103,11 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
                 String searchQuery = search.toLowerCase().trim();
 
                 if(name.contains(searchQuery) || description.contains(searchQuery)) {
-                    filteredList.add(restaurant);
+                    filterList.add(restaurant);
                 }
             }
         }
-        searchAdapter.filterList(filteredList);
+        searchAdapter.filterList(filterList);
     }
 
     private HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
@@ -117,8 +120,8 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
 
     @Override
     public void onItemClick(int position) {
-        String restaurantName = restaurants.get(position).get("name").toString();
-        String restaurantDescription = restaurants.get(position).get("description").toString();
+        String restaurantName = filterList.get(position).get("name").toString();
+        String restaurantDescription = filterList.get(position).get("description").toString();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription)).addToBackStack(null);
         fragmentTransaction.commit();

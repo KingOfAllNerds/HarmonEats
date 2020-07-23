@@ -20,19 +20,18 @@ public class AddToOrder extends Fragment {
 
     private String itemName;
     private String itemDescription;
-    private String requests;
+    private String restaurantName;
     private BigDecimal itemPrice;
     private int itemCount;
-    private BigDecimal currentPrice;
     private TextView itemCountBox, itemDescriptionBox, itemNameBox;
     private EditText specialRequests;
     OnItemAddedToOrderListener callback;
 
-    public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice) {
+    public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice, String restaurantName) {
         this.itemName = itemName;
+        this.restaurantName = restaurantName;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
-        this.currentPrice = itemPrice;
         this.itemCount = 1;
     }
 
@@ -42,7 +41,7 @@ public class AddToOrder extends Fragment {
     }
 
     public interface OnItemAddedToOrderListener {
-        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests);
+        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests, String restaurantName);
     }
 
     @Override
@@ -72,10 +71,9 @@ public class AddToOrder extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentPrice = currentPrice.add(itemPrice);
                 itemCount++;
                 itemCountBox.setText(String.valueOf(itemCount));
-                addToOrderButton.setText("Add " + itemCount + " to Order - $" + currentPrice);
+                addToOrderButton.setText("Add " + itemCount + " to Order - $" + itemPrice.multiply(new BigDecimal(itemCount)));
             }
         });
 
@@ -83,10 +81,9 @@ public class AddToOrder extends Fragment {
             @Override
             public void onClick(View v) {
                 if(itemCount > 1) {
-                    currentPrice = currentPrice.subtract(itemPrice);
                     itemCount--;
                     itemCountBox.setText(String.valueOf(itemCount));
-                    addToOrderButton.setText("Add " + itemCount + " to Order - $" + currentPrice);
+                    addToOrderButton.setText("Add " + itemCount + " to Order - $" + itemPrice.multiply(new BigDecimal(itemCount)));
                 }
             }
         });
@@ -94,7 +91,7 @@ public class AddToOrder extends Fragment {
         addToOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemAdded(currentPrice,itemCount,itemName,specialRequests.getText().toString());
+                callback.onItemAdded(itemPrice,itemCount,itemName,specialRequests.getText().toString(),restaurantName);
             }
         });
     }

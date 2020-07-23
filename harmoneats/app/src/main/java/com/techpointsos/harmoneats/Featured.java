@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class Featured extends Fragment implements RecyclerViewClickInterface {
 
-    private TextView featured_requests;
     private RecyclerView featuredRecylerView;
     private List<HashMap<String, Object>> featuredList;
     private SearchAdapter searchAdapter;
@@ -80,26 +79,6 @@ public class Featured extends Fragment implements RecyclerViewClickInterface {
         map.put("description",description);
         map.put("icon",icon);
         return map;
-    }
-
-    private void filter(String search) {
-        List<HashMap<String,Object>> filteredList = new ArrayList<>();
-
-        if (search == null || search.length() == 0) {
-            filteredList.addAll(featuredList);
-        } else {
-            for (HashMap<String,Object> restaurant: featuredList) {
-
-                String name = restaurant.get("name").toString().toLowerCase().trim();
-                String description = restaurant.get("description").toString().toLowerCase().trim();
-                String searchQuery = search.toLowerCase().trim();
-
-                if(name.contains(searchQuery) || description.contains(searchQuery)) {
-                    filteredList.add(restaurant);
-                }
-            }
-        }
-        searchAdapter.filterList(filteredList);
     }
 
     @Override

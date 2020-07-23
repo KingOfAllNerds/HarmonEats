@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,14 +107,41 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests) {
+    public void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests, String restaurantName) {
         HashMap<String,Object> map = new HashMap<>();
         map.put("price",currentPrice);
         map.put("count",itemCount);
         map.put("name",itemName);
         map.put("requests",specialRequests);
-        orderItems.add(map);
-        orderFragment = new Order(orderItems);
+        map.put("restaurant",restaurantName);
+
+        if(orderItems.size() < 1) {
+            orderItems.add(map);
+            orderFragment = new Order(orderItems);
+        } else {
+            if(map.get("restaurant").toString().equals(orderItems.get(0).get("restaurant").toString())) {
+                boolean added = false;
+                for(int i=0;i<orderItems.size();i++) {
+                    HashMap<String,Object> item = orderItems.get(0);
+                    if(item.equals(map)) {
+                        int newQuantity = (int) item.get("count") + (int) map.get("count");
+                        map.put("count",newQuantity);
+                        orderItems.remove(item);
+                        orderItems.add(map);
+                        orderFragment = new Order(orderItems);
+                        added = true;
+                        break;
+                    }
+                }
+                if(!added) {
+                    orderItems.add(map);
+                    orderFragment = new Order(orderItems);
+                }
+            } else {
+                Toast.makeText(this.getApplicationContext(),"Only order from one place at a time!",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override

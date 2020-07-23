@@ -1,40 +1,37 @@
 package com.techpointsos.harmoneats;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.List;
 
 public class AddToOrder extends Fragment {
 
     private String itemName;
     private String itemDescription;
+    private String restaurantName;
     private BigDecimal itemPrice;
     private int itemCount;
-    private BigDecimal currentPrice;
     private TextView itemCountBox, itemDescriptionBox, itemNameBox;
+    private EditText specialRequests;
     OnItemAddedToOrderListener callback;
 
-    public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice) {
+    public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice, String restaurantName) {
         this.itemName = itemName;
+        this.restaurantName = restaurantName;
         this.itemDescription = itemDescription;
         this.itemPrice = itemPrice;
-        this.currentPrice = itemPrice;
         this.itemCount = 1;
     }
 
@@ -44,7 +41,7 @@ public class AddToOrder extends Fragment {
     }
 
     public interface OnItemAddedToOrderListener {
-        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName);
+        void onItemAdded(BigDecimal currentPrice, int itemCount, String itemName, String specialRequests, String restaurantName);
     }
 
     @Override
@@ -59,6 +56,7 @@ public class AddToOrder extends Fragment {
         itemNameBox = view.findViewById(R.id.item_name);
         itemDescriptionBox = view.findViewById(R.id.item_description);
         itemCountBox = view.findViewById(R.id.item_count);
+        specialRequests = view.findViewById(R.id.special_requests);
 
         itemNameBox.setText(itemName);
         itemDescriptionBox.setText(itemDescription);
@@ -73,10 +71,9 @@ public class AddToOrder extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentPrice = currentPrice.add(itemPrice);
                 itemCount++;
                 itemCountBox.setText(String.valueOf(itemCount));
-                addToOrderButton.setText("Add " + itemCount + " to Order - $" + currentPrice);
+                addToOrderButton.setText("Add " + itemCount + " to Order - $" + itemPrice.multiply(new BigDecimal(itemCount)));
             }
         });
 
@@ -84,10 +81,9 @@ public class AddToOrder extends Fragment {
             @Override
             public void onClick(View v) {
                 if(itemCount > 1) {
-                    currentPrice = currentPrice.subtract(itemPrice);
                     itemCount--;
                     itemCountBox.setText(String.valueOf(itemCount));
-                    addToOrderButton.setText("Add " + itemCount + " to Order - $" + currentPrice);
+                    addToOrderButton.setText("Add " + itemCount + " to Order - $" + itemPrice.multiply(new BigDecimal(itemCount)));
                 }
             }
         });
@@ -95,7 +91,7 @@ public class AddToOrder extends Fragment {
         addToOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onItemAdded(currentPrice,itemCount,itemName);
+                callback.onItemAdded(itemPrice,itemCount,itemName,specialRequests.getText().toString(),restaurantName);
             }
         });
     }

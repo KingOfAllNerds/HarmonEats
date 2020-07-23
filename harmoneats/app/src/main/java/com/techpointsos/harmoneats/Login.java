@@ -1,8 +1,5 @@
 package com.techpointsos.harmoneats;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +10,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
 
     private EditText uemail, upass;
     private Button loginButton;
-    private TextView mRegisterButton;
+    private TextView mRegisterButton, forgotPassword;
     private FirebaseAuth mAuth;
     private Spinner spinner;
 
@@ -35,6 +35,7 @@ public class Login extends AppCompatActivity {
         upass = findViewById(R.id.pass);
         loginButton = findViewById(R.id.login);
         mRegisterButton = findViewById(R.id.gregister);
+        forgotPassword = findViewById(R.id.forgotPasswordTextView);
         mAuth = FirebaseAuth.getInstance();
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +43,14 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Register.class));
                 finish();
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resetPasswordIntent = new Intent(getApplicationContext(), ResetPassword.class);
+                startActivity(resetPasswordIntent);
             }
         });
 

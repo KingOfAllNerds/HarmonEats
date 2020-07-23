@@ -2,6 +2,12 @@ package com.techpointsos.harmoneats;
 
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,13 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +25,7 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
     private List<HashMap<String,Object>> restaurants;
+    private List<HashMap<String,Object>> filterList;
 
     public Search() {
         // Required empty public constructor
@@ -55,6 +55,17 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         restaurants.add(makeEntry("Milktooth", "Hip, modern diner with a patio for inventive breakfast & brunch items, plus espresso & cocktails.", null));
         restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.", null));
         restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
+        restaurants.add(makeEntry("Cafe Patachou", "A student union for adults since 1989!", null));
+        restaurants.add(makeEntry("Txuleta Basque Cider House", "A steak-and-cider house that sits on top of their flagship Brugge Brasserie.", null));
+        restaurants.add(makeEntry("Beholder", "From the owner of Milktooth, a restaurant that continually refreshers there menu which guarantees a new experience every time.", null));
+        restaurants.add(makeEntry("The Inferno Room", "A fantasia of classic Tiki cuisine - sliders to crab rangoon - with amazing classic cocktails.", null));
+        restaurants.add(makeEntry("Ukiyo", "Featuring one-of-a-kind 'designer rolls', Neal Brown constantly wows with his fresh menu and fresher fish.", null));
+        restaurants.add(makeEntry("Crispy Bird", "From the owners of Cafe Patachou, this fried chicken palace also serves up sides that will make you forget about the colonel.", null));
+        restaurants.add(makeEntry("RIZE", "Located in the beautiful Iron Works complex, this restaurant specializes in their delicious brunches.", null));
+        restaurants.add(makeEntry("Provision", "Lauded for their drink menu, their cocktail menu and fresh entrees is a truly special corner of culture.", null));
+        restaurants.add(makeEntry("Bub's Burgers and Ice Cream", "A cheerful atmosphere and full, reasonably priced menu.  Don't miss out on the elk burger!", null));
+
+        filterList = restaurants;
 
         EditText editText = view.findViewById(R.id.special_requests);
         editText.addTextChangedListener(new TextWatcher() {
@@ -80,10 +91,10 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
     }
 
     private void filter(String search) {
-        List<HashMap<String,Object>> filteredList = new ArrayList<>();
+        filterList = new ArrayList<>();
 
         if (search == null || search.length() == 0) {
-            filteredList.addAll(restaurants);
+            filterList.addAll(restaurants);
         } else {
             for (HashMap<String,Object> restaurant: restaurants) {
 
@@ -92,11 +103,11 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
                 String searchQuery = search.toLowerCase().trim();
 
                 if(name.contains(searchQuery) || description.contains(searchQuery)) {
-                    filteredList.add(restaurant);
+                    filterList.add(restaurant);
                 }
             }
         }
-        searchAdapter.filterList(filteredList);
+        searchAdapter.filterList(filterList);
     }
 
     private HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
@@ -109,10 +120,10 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
 
     @Override
     public void onItemClick(int position) {
-        String restaurantName = restaurants.get(position).get("name").toString();
-        String restaurantDescription = restaurants.get(position).get("description").toString();
+        String restaurantName = filterList.get(position).get("name").toString();
+        String restaurantDescription = filterList.get(position).get("description").toString();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription));
+        fragmentTransaction.replace(R.id.fragment_container, new RestaurantPage(restaurantName,restaurantDescription)).addToBackStack(null);
         fragmentTransaction.commit();
     }
 

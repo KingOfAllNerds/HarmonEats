@@ -93,7 +93,7 @@ public class RestaurantPage extends Fragment implements RecyclerViewClickInterfa
         String itemDescription = menu.get(position).get("description");
         BigDecimal price = BigDecimal.valueOf(Double.valueOf(menu.get(position).get("price")));
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, new AddToOrder(itemName,itemDescription,price));
+        fragmentTransaction.replace(R.id.fragment_container, new AddToOrder(itemName,itemDescription,price,restaurantName)).addToBackStack(null);
         fragmentTransaction.commit();
     }
 

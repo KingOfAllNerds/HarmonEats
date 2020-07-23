@@ -1,6 +1,11 @@
 package com.techpointsos.harmoneats;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,12 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import org.w3c.dom.Text;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
     private List<HashMap<String,Object>> orderItems;
     private RecyclerView recyclerView;
     private OrderAdapter orderAdapter;
+    private Button completeOrder;
+    private BigDecimal orderPrice;
+    private TextView orderTitle;
 
     public Order(List<HashMap<String,Object>> orderItems) {
         this.orderItems = orderItems;
@@ -39,19 +44,20 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button completeOrder = view.findViewById(R.id.complete_order);
-
+        completeOrder = view.findViewById(R.id.complete_order);
         recyclerView = view.findViewById(R.id.order_view);
+        orderTitle = view.findViewById(R.id.your_order);
         orderAdapter = new OrderAdapter(orderItems, this);
         recyclerView.setAdapter(orderAdapter);
 
-        if(orderItems.size() < 1) {
-            completeOrder.setText("Select items from a restaurant first!");
-            completeOrder.setClickable(false);
-        } else {
-
-            completeOrder.setClickable(true);
-        }
+        orderPrice = new BigDecimal(0.00);
+        checkOrderSize();
+        completeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new Checkout()).addToBackStack(null).commit();
+            }
+        });
     }
 
     @Override
@@ -61,6 +67,26 @@ public class Order extends Fragment implements RecyclerViewClickInterface{
 
     @Override
     public void onLongItemClick(int position) {
+        orderPrice = orderPrice.subtract((BigDecimal) orderItems.get(position).get("price"));
         orderItems.remove(position);
+        checkOrderSize();
+        orderAdapter.notifyDataSetChanged();
+    }
+
+    private void checkOrderSize() {
+        if(orderItems.size() < 1) {
+            orderTitle.setText("Your Order");
+            completeOrder.setText("Select items from a restaurant first!");
+            completeOrder.setClickable(false);
+        } else {
+            orderTitle.setText("Your Order from " + orderItems.get(0).get("restaurant"));
+            for(HashMap<String,Object> item : orderItems) {
+                BigDecimal price = ((BigDecimal) item.get("price")).multiply(new BigDecimal((int) item.get("count")));
+                orderPrice = orderPrice.add(price);
+            }
+            String buttonText = "Checkout - $"+orderPrice.toString();
+            completeOrder.setText(buttonText);
+            completeOrder.setClickable(true);
+        }
     }
 }

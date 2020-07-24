@@ -98,7 +98,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about_us:
-                Toast.makeText(this.getApplicationContext(),"Oops! Feature not yet implemented",Toast.LENGTH_LONG).show();
+                //Toast.makeText(this.getApplicationContext(),"Oops! Feature not yet implemented",Toast.LENGTH_LONG).show();
+                AboutUSDialog aboutUSDialog = new AboutUSDialog();
+                aboutUSDialog.show(getSupportFragmentManager(), "About Us");
                 return true;
             case R.id.logout:
                 logout();

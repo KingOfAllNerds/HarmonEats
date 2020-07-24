@@ -11,7 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.ar.sceneform.assets.RenderableSource;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -24,7 +25,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private RecyclerViewClickInterface recyclerViewClickInterface;
     List<HashMap<String,String>> menu;
     private Button arButton;
-    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+
 
     public MenuAdapter(List<HashMap<String,String>> menu, RecyclerViewClickInterface recyclerViewClickInterface) {
         this.menu = menu;
@@ -65,7 +66,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             restaurantName = itemView.findViewById(R.id.itemName);
             briefDesc = itemView.findViewById(R.id.briefDesc);
             priceTag = itemView.findViewById(R.id.priceTag);
-            arButton = itemView.findViewById(R.id.arButton);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -82,16 +83,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                 }
             });
 
-            arButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
         }
 
-        public void buildModel(File f){
-            RenderableSource renderableSource = RenderableSource.builder().setSource(this, Uri.parse(f.getPath()) ,RenderableSource.SourceType.GLB));
-        }
+
     }
 }

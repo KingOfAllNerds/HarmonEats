@@ -2,10 +2,12 @@ package com.techpointsos.harmoneats;
 
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +36,7 @@ public class Featured extends Fragment implements RecyclerViewClickInterface {
     private RecyclerView featuredRecylerView;
     private List<HashMap<String, Object>> featuredList;
     private SearchAdapter searchAdapter;
+    private FirebaseFirestore fstore = FirebaseFirestore.getInstance();
 
     public Featured() {
         // Required empty public constructor
@@ -50,28 +59,30 @@ public class Featured extends Fragment implements RecyclerViewClickInterface {
 
         featuredRecylerView = (RecyclerView) view.findViewById(R.id.featuredRecylerView);
 
-        continueOnViewCreated();    //Don't want to clutter one method with hardcoding.
+        featuredList = new ArrayList<HashMap<String, Object>>();
+        //Toast.makeText(getActivity(), "Hello", Toast.LENGTH_SHORT).show();
+        fstore.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Toast.makeText(getActivity(), makeEntry(document.getId(),document.get("description").toString(), null).toString(), Toast.LENGTH_SHORT).show();
+                        featuredList.add(makeEntry(document.getId(),document.get("description").toString(), null));
+                    }
+                    searchAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Log.d("", "Error getting documents: ", task.getException());
+                    Toast.makeText(getActivity(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         searchAdapter = new SearchAdapter(featuredList, this);
         featuredRecylerView.setAdapter(searchAdapter);
 
     }
 
-    public void continueOnViewCreated(){
-        featuredList = new ArrayList<HashMap<String, Object>>();
-
-        featuredList.add(makeEntry("Cafe Patachou", "A student union for adults since 1989!", null));
-        featuredList.add(makeEntry("Txuleta Basque Cider House", "A steak-and-cider house that sits on top of their flagship Brugge Brasserie.", null));
-        featuredList.add(makeEntry("Beholder", "From the owner of Milktooth, a restaurant that continually refreshers there menu which guarantees a new experience every time.", null));
-        featuredList.add(makeEntry("The Inferno Room", "A fantasia of classic Tiki cuisine - sliders to crab rangoon - with amazing classic cocktails.", null));
-        featuredList.add(makeEntry("Ukiyo", "Featuring one-of-a-kind 'designer rolls', Neal Brown constantly wows with his fresh menu and fresher fish.", null));
-        featuredList.add(makeEntry("Crispy Bird", "From the owners of Cafe Patachou, this fried chicken palace also serves up sides that will make you forget about the colonel.", null));
-        featuredList.add(makeEntry("RIZE", "Located in the beautiful Iron Works complex, this restaurant specializes in their delicious brunches.", null));
-        featuredList.add(makeEntry("Provision", "Lauded for their drink menu, their cocktail menu and fresh entrees is a truly special corner of culture.", null));
-        featuredList.add(makeEntry("Bub's Burgers and Ice Cream", "A cheerful atmosphere and full, reasonably priced menu.  Don't miss out on the elk burger!", null));
-
-        return;
-    }
 
     private HashMap<String, Object> makeEntry(String name, String description, Icon icon) {
         HashMap<String, Object> map = new HashMap<String, Object>();

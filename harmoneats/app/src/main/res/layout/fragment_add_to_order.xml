@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".AddToOrder">
 
+    <Button
+        android:id="@+id/arButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View 3D model"
+        app:layout_constraintBottom_toTopOf="@+id/item_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/special_requests" />
+
     <TextView
         android:id="@+id/item_count"
         android:layout_width="0dp"

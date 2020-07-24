@@ -1,5 +1,6 @@
 package com.techpointsos.harmoneats;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class AddToOrder extends Fragment {
     private int itemCount;
     private TextView itemCountBox, itemDescriptionBox, itemNameBox;
     private EditText specialRequests;
+    private Button arButton;
     OnItemAddedToOrderListener callback;
 
     public AddToOrder(String itemName, String itemDescription, BigDecimal itemPrice, String restaurantName) {
@@ -57,7 +59,7 @@ public class AddToOrder extends Fragment {
         itemDescriptionBox = view.findViewById(R.id.item_description);
         itemCountBox = view.findViewById(R.id.item_count);
         specialRequests = view.findViewById(R.id.special_requests);
-
+        arButton = view.findViewById(R.id.arButton);
         itemNameBox.setText(itemName);
         itemDescriptionBox.setText(itemDescription);
         itemCountBox.setText(String.valueOf(itemCount));
@@ -92,6 +94,13 @@ public class AddToOrder extends Fragment {
             @Override
             public void onClick(View v) {
                 callback.onItemAdded(itemPrice,itemCount,itemName,specialRequests.getText().toString(),restaurantName);
+            }
+        });
+
+        arButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), arActivity.class));
             }
         });
     }

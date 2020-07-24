@@ -4,10 +4,12 @@ import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,17 +18,24 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Search extends Fragment implements RecyclerViewClickInterface {
+public class
+Search extends Fragment implements RecyclerViewClickInterface {
 
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
     private List<HashMap<String,Object>> restaurants;
     private List<HashMap<String,Object>> filterList;
-
+    private FirebaseFirestore fstore = FirebaseFirestore.getInstance();
     public Search() {
         // Required empty public constructor
     }
@@ -45,25 +54,23 @@ public class Search extends Fragment implements RecyclerViewClickInterface {
         super.onViewCreated(view, savedInstanceState);
 
         restaurants = new ArrayList<HashMap<String,Object>>();
+        fstore.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Toast.makeText(getActivity(), makeEntry(document.getId(),document.get("description").toString(), null).toString(), Toast.LENGTH_SHORT).show();
+                        restaurants.add(makeEntry(document.getId(),document.get("description").toString(), null));
+                    }
+                    searchAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Log.d("", "Error getting documents: ", task.getException());
+                    Toast.makeText(getActivity(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        restaurants.add(makeEntry("Harry & Izzy's", "Upscale steakhouse with a notable wine selection & a contemporary spin on chops, seafood & pizza.", null));
-        restaurants.add(makeEntry("Livery", "Stylish bi-level spot with an all-season rooftop patio for Latin classics & lots of tequila.", null));
-        restaurants.add(makeEntry("Vida", "Modern American plates & drinks in a trendy space boasting a fireplace, bar & herb wall.", null));
-        restaurants.add(makeEntry("Tinker Street Restaurant", "New American outpost with a patio serving wines, brews & seasonal fare in a warm, upbeat setting.", null));
-        restaurants.add(makeEntry("The Eagle Mass Ave", "Rustic-chic eatery & beer hall dishing up Southern classics in sprawling digs with a patio.", null));
-        restaurants.add(makeEntry("OP Italian Indy", "JW Marriott restaurant serving Italian fare in a sleek space with a bar & glass-enclosed wine room.", null));
-        restaurants.add(makeEntry("Milktooth", "Hip, modern diner with a patio for inventive breakfast & brunch items, plus espresso & cocktails.", null));
-        restaurants.add(makeEntry("Mama Carolla's", "Upscale Italian restaurant in a 1920s Mediterranean-style villa offering a full bar & a garden.", null));
-        restaurants.add(makeEntry("Bru Burger Bar", "Gourmet burgers, creative bar snacks & craft beers in a modern yet cozy space with a patio.", null));
-        restaurants.add(makeEntry("Cafe Patachou", "A student union for adults since 1989!", null));
-        restaurants.add(makeEntry("Txuleta Basque Cider House", "A steak-and-cider house that sits on top of their flagship Brugge Brasserie.", null));
-        restaurants.add(makeEntry("Beholder", "From the owner of Milktooth, a restaurant that continually refreshers there menu which guarantees a new experience every time.", null));
-        restaurants.add(makeEntry("The Inferno Room", "A fantasia of classic Tiki cuisine - sliders to crab rangoon - with amazing classic cocktails.", null));
-        restaurants.add(makeEntry("Ukiyo", "Featuring one-of-a-kind 'designer rolls', Neal Brown constantly wows with his fresh menu and fresher fish.", null));
-        restaurants.add(makeEntry("Crispy Bird", "From the owners of Cafe Patachou, this fried chicken palace also serves up sides that will make you forget about the colonel.", null));
-        restaurants.add(makeEntry("RIZE", "Located in the beautiful Iron Works complex, this restaurant specializes in their delicious brunches.", null));
-        restaurants.add(makeEntry("Provision", "Lauded for their drink menu, their cocktail menu and fresh entrees is a truly special corner of culture.", null));
-        restaurants.add(makeEntry("Bub's Burgers and Ice Cream", "A cheerful atmosphere and full, reasonably priced menu.  Don't miss out on the elk burger!", null));
 
         filterList = restaurants;
 
